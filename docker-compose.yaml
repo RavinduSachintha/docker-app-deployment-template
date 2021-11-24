@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  backend-app:
+    image: sachintha96/docker-backend:latest
+    build: ./backend-app/
+    networks:
+      - backend-net
+      - frontend-net
+    depends_on:
+      - thirdparty-app
+    restart: on-failure
+
+  frontend-app:
+    image: sachintha96/docker-frontend:latest
+    build: ./frontend-app/
+    networks:
+      - frontend-net
+    depends_on:
+      - backend-app
+    restart: on-failure
+
+  thirdparty-app:
+    image: sachintha96/docker-thirdparty:latest
+    build: ./third-party-app/
+    networks:
+      - backend-net
+    restart: on-failure
+
+  reverse-proxy:
+    image: sachintha96/docker-revproxy:latest
+    build: ./reverse-proxy/
+    networks:
+      - frontend-net
+    ports:
+      - "80:80"
+
+networks:
+  backend-net: {}
+  frontend-net: {}
+
+
