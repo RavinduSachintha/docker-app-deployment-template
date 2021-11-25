@@ -9,14 +9,18 @@ const calcRouter = require('./routes/calc');
 
 const app = express();
 
-// app.use(cors());
+if (process.env.NODE_ENV === 'development') {
+    console.log("dev mode!");
+    app.use(cors());
+}
+
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api/', indexRouter);
-app.use('/api/calc', calcRouter);
+app.use('/', indexRouter);
+app.use('/calc', calcRouter);
 
 module.exports = app;

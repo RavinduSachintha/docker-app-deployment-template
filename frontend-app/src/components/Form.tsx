@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import '../App.css';
 import axios from 'axios';
+import { api_base } from '../config';
 
 function useInput(props: { type: string, labelName: string }) {
     const [value, setValue] = useState(0);
@@ -23,7 +24,7 @@ export default function FormComponent() {
     const [result, setResult] = useState("Empty");
 
     async function submitAction() {
-        let response = await axios.post("/api/calc", {num1, num2}, {
+        let response = await axios.post(api_base + "calc", {num1, num2}, {
             headers: {
                 contentType: "application/json"
             }

@@ -1,5 +1,6 @@
 const express = require('express');
 const http = require('http');
+const {thirdPartyHost, thirdPartyPort} = require("../config");
 const router = express.Router();
 
 /* GET users listing. */
@@ -12,9 +13,8 @@ router.post('/', function(req, res, next) {
   });
 
   const options = {
-    host: 'thirdparty-app',
-    // host: 'localhost',
-    port: 3002,
+    host: thirdPartyHost,
+    port: thirdPartyPort,
     path: '/decorate',
     method: 'POST',
     headers: {
@@ -34,6 +34,10 @@ router.post('/', function(req, res, next) {
 
     response.on('end', function() {
       res.send(data).status(200);
+    });
+
+    response.on('error', function(error) {
+      res.send(error.message).status(400);
     });
 
   });

@@ -8,6 +8,10 @@ const decorateRouter = require('./routes/decorate');
 
 const app = express();
 
+if (process.env.NODE_ENV === 'development') {
+    console.log("dev mode!");
+}
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
